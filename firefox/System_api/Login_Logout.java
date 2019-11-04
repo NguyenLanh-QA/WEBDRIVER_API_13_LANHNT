@@ -1,15 +1,17 @@
-package webdriver_api;
+package System_api;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class Topic_01_CheckEnvironment {
+public class Login_Logout {
 	// Khai báo biến driver đại diện cho selenium webdriver
 	WebDriver driver;
 
@@ -20,13 +22,13 @@ public class Topic_01_CheckEnvironment {
 		driver = new FirefoxDriver();
 		
 		// Chờ chơ element được hiển thị trước khi tương tác trong vòng 30s
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
 		
 		// Phóng to trình duyệt
 		driver.manage().window().maximize();
 		
 		//Mở ra 1 trang web 
-		driver.get("http://demo.guru99.com/v4/");
+		driver.get("http://ban-attp.dichvucong.site/");
 	}
 
 	@Test
@@ -35,7 +37,7 @@ public class Topic_01_CheckEnvironment {
 		String loginPageUrl = driver.getCurrentUrl();
 		
 		//Các hàm verify dữ liệu của TestNG(true/false/equals)
-		Assert.assertEquals(loginPageUrl, "http://demo.guru99.com/v4/");
+		Assert.assertEquals(loginPageUrl, "http://ban-attp.dichvucong.site/");
 	}
 
 	@Test
@@ -44,15 +46,36 @@ public class Topic_01_CheckEnvironment {
 		String loginPageTitle = driver.getTitle();
 		
 		//Verify dữ liệu của biến loginPageTitle này bằng với giá trị mình mong muón
-		Assert.assertEquals(loginPageTitle, "Guru99 Bank Home Page");
+		Assert.assertEquals(loginPageTitle, "Ban quản lý an toàn thực phẩm");
 	}
 
 	@Test
 	public void TC_03_LoginFormDisplayed() {
+		
+		//Click Đăng nhập để chuyển đến trang Login
+		
+		WebElement ele = driver.findElement(By.xpath("//header[@class='wf100 header']//a[(text()='Đăng nhập')]"));
+		JavascriptExecutor executor = (JavascriptExecutor)driver;
+		executor.executeScript("arguments[0].click();", ele);
+	
+				
 		// Verify login form được hiển thị ở trang login
-		Assert.assertTrue(driver.findElement(By.xpath("//form[@name='frmLogin']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//form[@class='login-form']")).isDisplayed());
 	}
-
+	@Test
+	public void TC_04_LoginEmty() {
+		
+		//Click button Đăng nhập
+		driver.findElement(By.xpath("//button[@name='btnLogin']")).click();
+		//Kiểm tra thông báo
+	    String emailError=driver.findElement(By.xpath("//span[@id='usernameOrEmailAddress-error']")).getText();
+		Assert.assertEquals(emailError,"This field is required.");
+	    String passError=driver.findElement(By.xpath("//span[@id='password-error']")).getText();
+		Assert.assertEquals(passError,"This field is required.");
+						
+		
+	}
+	
 	//Pro-conditon
 	@AfterClass
 	public void afterClass() {
