@@ -21,8 +21,8 @@ public class Topic02_WebElement {
 	String emailValid = "automation_" + randomNumber() + "@gmai.com";
 
 	public int randomNumber() {
-		Random rand = new Random();
-		return rand.nextInt(1000);
+	Random rand = new Random();
+	return rand.nextInt(1000);
 
 	}
 

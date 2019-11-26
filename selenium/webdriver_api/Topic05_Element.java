@@ -12,7 +12,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class Topic05_Element1 {
+public class Topic05_Element {
 	// Khai báo biến driver đại diện cho selenium webdriver
 	WebDriver driver;
 	By emailTextboxBy=By.xpath("//input[@id='mail']");
