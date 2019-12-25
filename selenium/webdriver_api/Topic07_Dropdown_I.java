@@ -3,6 +3,9 @@ package webdriver_api;
 
 
 
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
@@ -15,12 +18,12 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.sun.xml.internal.ws.client.SenderException;
 
-public class Topic07_Dropdown {
+public class Topic07_Dropdown_I {
 	// Khai báo biến driver đại diện cho selenium webdriver
 	WebDriver driver;
 	By job1Droplist=By.xpath("//select[@id='job1']");
+	By job2Droplist=By.id("job2");
 	By genderRadio=By.xpath("//input[@id='gender-female']");
 	By firtnameBy=By.xpath("//input[@id='FirstName']");
 	By lastnameBy=By.xpath("//input[@id='LastName']");
@@ -39,6 +42,8 @@ public class Topic07_Dropdown {
 	String emailTextbox=randomNumber()+ "@gmail.com";
 	String passTextbox="123456a";
 	String confirmpassTextbox="123456a";
+	Select select;
+	int numberSelect;
 	
 	public int randomNumber() {
 	Random rand = new Random();
@@ -70,29 +75,69 @@ public class Topic07_Dropdown {
 		driver.get("https://automationfc.github.io/basic-form/index.html");
 		
 		// Kiểm tra dropdown không hỗ trợ multi-select
-		Select select = new Select(driver.findElement(job1Droplist));
+		select = new Select(driver.findElement(job1Droplist));
 		Assert.assertFalse(select.isMultiple());
 
-		// Kiểm tra chọn giá trị Automation Tester bằng selectByVisibleText
-		select.selectByVisibleText("Automation Tester");
-		Assert.assertEquals(select.getFirstSelectedOption().getText(), "Automation Tester");
+		// Kiểm tra chọn giá trị Automation Testing bằng selectByVisibleText
+		select.selectByVisibleText("Automation Testing");
+		Assert.assertEquals(select.getFirstSelectedOption().getText(), "Automation Testing");
 
-		// Kiểm tra chọn giá trị Manual Tester bằng selectByValue
+		// Kiểm tra chọn giá trị Manual Testing bằng selectByValue
 		
 		select.selectByValue("manual");
-		Assert.assertEquals(select.getFirstSelectedOption().getText(), "Manual Tester");
+		Assert.assertEquals(select.getFirstSelectedOption().getText(), "Manual Testing");
 
-		// Kiểm tra chọn giá trị Mobile Tester bằng selectByIndex
-		select.selectByIndex(3);
-		Assert.assertEquals(select.getFirstSelectedOption().getText(), "Mobile Tester");
+		// Kiểm tra chọn giá trị Manual Testing bằng selectByIndex
+		select.selectByIndex(9);
+		Assert.assertEquals(select.getFirstSelectedOption().getText(), "Functional UI Testing");
 
 		// Kiểm tra số lượng trong droplist
 		int numberSelect = select.getOptions().size();
-		Assert.assertEquals(numberSelect, 5);
+		Assert.assertEquals(numberSelect, 10);
+		
+		//In ra tất cả các giá trị nằm trong droplist--> Xem tất cả các giá trị trong droplist này sort đúng hay không
+		//Sort ASC/DESC
+		List <WebElement> allOptions=select.getOptions();
+		
+		for (WebElement option : allOptions) {
+			System.out.println(option.getText());
+		}
+		//Sort ASC/DESC
+		//List<String> arrayList = new ArrayList<String>();
+		//for (WebElement option : allOptions) {
+			//arrayList.add(option.getText());
+		//}
+		
+		
+		// Kiểm tra dropdown có hỗ trợ multi-select
+		select = new Select(driver.findElement(job2Droplist));
+		Assert.assertTrue(select.isMultiple());
+		
+		//Chọn nhiều giá trị tròng droplist
+		select.selectByVisibleText("Automation");
+		select.selectByVisibleText("Mobile");
+		select.selectByVisibleText("Desktop");
+		
+		//Kiểm tra 3 giá trị được chọn thành công
+		List <WebElement> optionSelected=select.getAllSelectedOptions();
+		Assert.assertEquals(optionSelected.size(), 3);
+		List<String> arraySelected = new ArrayList<String>();
+		for (WebElement select: optionSelected) {
+			arraySelected.add(select.getText());
+		}
+		Assert.assertTrue(arraySelected.contains("Automation"));
+		Assert.assertTrue(arraySelected.contains("Mobile"));
+		Assert.assertTrue(arraySelected.contains("Desktop"));
+		
+		//Bỏ chọn 3 giá trị
+		select.deselectAll();
+		List <WebElement> optionDeselect=select.getAllSelectedOptions();
+		Assert.assertEquals(optionDeselect.size(), 0);
+
+		
 		
 	}
-
-
+	
 	@Test
 	public void TC_02_Droplist_Extend() {
 		driver.get("https://demo.nopcommerce.com/register");
@@ -103,19 +148,31 @@ public class Topic07_Dropdown {
 		senKeyToElement(firtnameBy, firstnameTextbox);
 		senKeyToElement(lastnameBy, lastnameTextbox);
 		
+		
+		//Chọn Day=1 và có 32 items trong droplist
 		Select select = new Select(driver.findElement(dateBy));
 		select.selectByVisibleText("1");
 		Assert.assertEquals(select.getFirstSelectedOption().getText(), "1");
+		numberSelect=select.getOptions().size();
+		Assert.assertEquals(numberSelect, 32);
+		System.out.println("Day="+numberSelect);
 
 
-
+		//Chọn Month=May và có 13 items trong droplist
 		select = new Select(driver.findElement(monthBy));
 		select.selectByVisibleText("May");
 		Assert.assertEquals(select.getFirstSelectedOption().getText(), "May");
-
+		numberSelect=select.getOptions().size();
+		Assert.assertEquals(numberSelect, 13);
+		System.out.println("Month="+numberSelect);
+		
+		//Chọn Year=1980 và có 112 items trong droplist
 		select = new Select(driver.findElement(yearBy));
 		select.selectByVisibleText("1980");
 		Assert.assertEquals(select.getFirstSelectedOption().getText(), "1980");
+		numberSelect=select.getOptions().size();
+		Assert.assertEquals(numberSelect, 112);
+		System.out.println("Year="+numberSelect);
 		
 		senKeyToElement(emailBy, emailTextbox);
 		senKeyToElement(passBy, passTextbox);
@@ -123,15 +180,18 @@ public class Topic07_Dropdown {
 		clickToElement((By.xpath("//input[@id='register-button']")));
 		
 		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='result' and text()='Your registration completed']")).getText(), "Your registration completed");
-		IsDisplay(By.xpath("//input[@name='register-continue']"));
+		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='header-links']//a[contains(text(),'My account')]")).getText(), "My account");
+		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='header-links']//a[contains(text(),'Log out')]")).getText(), "Log out");
+		
 		
 
 		
 	}
+			 
 	
-	public boolean IsDisplay(By by)
+	public boolean IsDisplay(String xpathLocator)
 	{
-		WebElement element= driver.findElement(by);
+		WebElement element= driver.findElement(By.xpath(xpathLocator));
 		if(element.isDisplayed()) {
 			return true;
 		}

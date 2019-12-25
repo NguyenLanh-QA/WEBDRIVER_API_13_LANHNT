@@ -21,6 +21,7 @@ public class Topic05_Element {
 	By jobRole1By=By.xpath("//select[@id='job1']");
 	By developmentcheckboxBy=By.xpath("//input[@id='development']");
 	By slide1By=By.xpath("//input[@id='slider-1']");
+	
 	By passwordBy=By.xpath("//input[@id='password']");
 	By ageradioDisable=By.xpath("//input[@id='radio-disabled']");
 	By bioghraphyBy=By.xpath("//textarea[@id='bio']");
