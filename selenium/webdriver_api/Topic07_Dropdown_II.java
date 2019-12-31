@@ -95,7 +95,7 @@ public class Topic07_Dropdown_II {
 		public void selectItemAngularDroplist( String parentXpath, String allItemsXpath, String expectedText )
 		{
 			driver.get("https://ej2.syncfusion.com/angular/demos/?_ga=2.262049992.437420821.1575083417-524628264.1575083417#/material/drop-down-list/data-binding");
-			driver.findElement(By.xpath(parentXpath)).click();;
+			driver.findElement(By.xpath(parentXpath)).click();
 			WebDriverWait waitExplicit;
 			waitExplicit = new WebDriverWait(driver,10);
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
