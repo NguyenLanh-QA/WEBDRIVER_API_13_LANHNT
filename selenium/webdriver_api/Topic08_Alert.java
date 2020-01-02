@@ -12,7 +12,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class Topic09_Alert {
+public class Topic08_Alert {
 	// Khai báo biến driver đại diện cho selenium webdriver
 	WebDriver driver;
 	Alert alert;
