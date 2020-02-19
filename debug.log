@@ -1,2 +1,4 @@
 [0110/103135.576:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
 [0110/103135.577:ERROR:exception_snapshot_win.cc(98)] thread ID 27492 not found in process
+[0219/113537.825:ERROR:prune_crash_reports.cc(35)] PruneCrashReportDatabase: Failed to get pending reports
+[0219/114744.688:ERROR:prune_crash_reports.cc(35)] PruneCrashReportDatabase: Failed to get pending reports
