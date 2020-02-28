@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<suite name="Selenium WebDriver API" parallel="false">
+	<test name="Run testcase on Chorme">
+		<parameter name="browser" value="chorme"></parameter>
+		<classes>
+			<class name="testNG_framewwork.Part_V_Multi_Brower" />
+		</classes>
+	</test>
+
+	<test name="Run testcase on Firefox">
+		<parameter name="browser" value="firefox"></parameter>
+		<classes>
+			<class name="testNG_framewwork.Part_V_Multi_Brower" />
+		</classes>
+	</test>
+</suite> 
